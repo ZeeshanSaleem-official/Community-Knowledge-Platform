@@ -1,5 +1,17 @@
 {
   "compilerOptions": {
+    /* 1. PATH ALIASES (Fixes "Module not found: @/actions") */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    /* 2. TYPEORM SETTINGS (Fixes "ColumnTypeUndefined" & Decorator errors) */
+    "experimentalDecorators": true, // Allows @Entity, @Column
+    "emitDecoratorMetadata": true, // Helps TypeORM guess types
+    "useDefineForClassFields": false, // 🚨 CRITICAL: Fixes "Unable to resolve signature" error
+    /* 3. STANDARD NEXT.JS SETTINGS */
     "target": "ES2017",
     "lib": [
       "dom",
@@ -8,35 +20,29 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    /* Strict Mode: You can set this to true later for better safety, 
+       but false is easier while learning. */
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler", // "bundler" is preferred for Next.js 13+
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "react-jsx", // Next.js handles the JSX compilation
     "incremental": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    ]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

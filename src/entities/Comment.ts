@@ -8,8 +8,6 @@ import {
     OneToMany,
     JoinColumn
 } from "typeorm";
-import { Post } from "./Post";
-import { User } from "./User";
 
 @Entity("comments")
 export class Comment {
@@ -35,21 +33,21 @@ export class Comment {
     updatedAt!: Date;
 
     // Relation to Post
-    @ManyToOne(() => Post, (post) => post.comments, { onDelete: "CASCADE" })
+    @ManyToOne("Post", "comments", { onDelete: "CASCADE" })
     @JoinColumn({ name: "postId" })
-    post!: Post;
+    post!: any;
 
     // Relation to User
-    @ManyToOne(() => User, (user) => user.comments, { onDelete: "CASCADE" })
+    @ManyToOne("User", "comments", { onDelete: "CASCADE" })
     @JoinColumn({ name: "userId" })
-    user!: User;
+    user!: any;
 
     // Self-Reference (Parent)
-    @ManyToOne(() => Comment, (comment) => comment.children, { onDelete: "CASCADE", nullable: true })
+    @ManyToOne("Comment", "children", { onDelete: "CASCADE", nullable: true })
     @JoinColumn({ name: "parentId" })
-    parent!: Comment | null;
+    parent!: any | null;
 
     // Self-Reference (Children/Replies)
-    @OneToMany(() => Comment, (comment) => comment.parent)
-    children!: Comment[];
+    @OneToMany("Comment", "parent")
+    children!: any[];
 }

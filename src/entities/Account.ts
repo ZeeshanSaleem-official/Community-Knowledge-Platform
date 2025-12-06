@@ -1,22 +1,20 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Unique } from "typeorm"
-import { User } from "./User"
-import { text } from "stream/consumers"
-import { user } from "@nextui-org/react"
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+
 @Entity()
 export class Account {
     @PrimaryGeneratedColumn("uuid")
-    id!: Number
+    id!: string;
 
     @Column({
         type: "uuid",
     })
-    userId!: string
+    userId!: string;
 
     @Column()
-    type!: string
+    type!: string;
 
     @Column()
-    provider!: string
+    provider!: string;
 
     @Column()
     providerAccountId!: string;
@@ -28,7 +26,8 @@ export class Account {
     access_token!: string | null;
 
     @Column({ type: "int", nullable: true })
-    expires_at!: number | null
+    expires_at!: number | null;
+
     @Column({ type: "varchar", nullable: true })
     token_type!: string | null;
 
@@ -41,9 +40,9 @@ export class Account {
     @Column({ type: "varchar", nullable: true })
     session_state!: string | null;
 
-    @ManyToOne(() => User, (user) => user.accounts, {
+    @ManyToOne("User", "accounts", {
         onDelete: "CASCADE",
     })
-    @JoinColumn({ name: "uuid" })
-    user!: User
+    @JoinColumn({ name: "userId" })
+    user!: any;
 }

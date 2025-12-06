@@ -8,9 +8,7 @@ import {
     OneToMany,
     JoinColumn
 } from "typeorm";
-import { User } from "./User";
 import { Topic } from "./Topic";
-import { Comment } from "./Comment";
 
 @Entity("posts")
 export class Post {
@@ -36,14 +34,14 @@ export class Post {
     updatedAt!: Date;
 
     // Relations
-    @ManyToOne(() => User, (user) => user.posts, { onDelete: "CASCADE" })
+    @ManyToOne("User", "posts", { onDelete: "CASCADE" })
     @JoinColumn({ name: "userId" })
-    user!: User;
+    user!: any;
 
     @ManyToOne(() => Topic, (topic) => topic.posts)
     @JoinColumn({ name: "topicId" })
     topic!: Topic;
 
-    @OneToMany(() => Comment, (comment) => comment.post)
-    comments!: Comment[];
+    @OneToMany("Comment", "post")
+    comments!: any[];
 }

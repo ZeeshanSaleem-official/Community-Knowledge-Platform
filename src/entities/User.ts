@@ -1,8 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Account } from "./Account";
-import { Session } from "./Session"; // Import these
-import { Post } from "./Post";
-import { Comment } from "./Comment";
 
 @Entity("users")
 export class User {
@@ -21,17 +17,16 @@ export class User {
     @Column({ nullable: true })
     image!: string;
 
-    // Existing Account Relation
-    @OneToMany(() => Account, (account) => account.user)
-    accounts!: Account[];
+    // Relations - using arrow functions delays entity resolution
+    @OneToMany("Account", "user")
+    accounts!: any[];
 
-    // 👇 ADD THESE NEW RELATIONS 👇
-    @OneToMany(() => Session, (session) => session.user)
-    sessions!: Session[];
+    @OneToMany("Session", "user")
+    sessions!: any[];
 
-    @OneToMany(() => Post, (post) => post.user)
-    posts!: Post[];
+    @OneToMany("Post", "user")
+    posts!: any[];
 
-    @OneToMany(() => Comment, (comment) => comment.user)
-    comments!: Comment[];
+    @OneToMany("Comment", "user")
+    comments!: any[];
 }
