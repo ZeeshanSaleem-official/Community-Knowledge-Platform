@@ -1,5 +1,4 @@
-import { DataSource } from "typeorm"
-import { DataSourceOptions } from "typeorm/browser";
+import { DataSource, DataSourceOptions } from "typeorm"; // THIS IS CORRECT
 import { Account } from "@/entities/Account";
 import { User } from "@/entities/User";
 import { VerificationToken } from "@/entities/VerificationToken";
