@@ -1,40 +1,20 @@
 import TopicCreateForm from "@/components/topics/topic-create-form";
-// import { getDataSource } from "@/db/connect";
-// import { User } from "@/entities/User";
-// import { AuthButtons } from "@/components/auth-buttons"; // 👈 Import your new component
-// import { Session } from "next-auth";
-// import { auth } from "@/auth";
-// import { user } from "@nextui-org/react";
-// import Profile from "@/components/Profile";
+import TopicList from "@/components/topics/topic-list";
 export default async function Home() {
-  // const session = await auth();
-  // const db = await getDataSource();
-  // const users = await db.getRepository(User).find();
-  // console.log(users);
-
   return (
-    // <div className="p-10">
-    //   <div className="mt-4">
-    //     <AuthButtons />
-    //     {
-    //       session?.user ? <div>Signed IN<br></br>{JSON.stringify(session.user)}</div> : <div>Signed Out</div>
-    //     }
-    //   </div>
-    //   <Profile />
-    // </div>
     <>
       <div className=" grid grid-cols-4 gap-4 p-4">
         <div className="col-span-3">
-          <h1 className="text-xl m-2">
-            Top Posts
-          </h1>
+          <h1 className="text-xl m-2">Top Posts</h1>
         </div>
 
-        <div>
+        <div className="border shadow py-3 px-2">
           <TopicCreateForm />
+          <div className="my-4 border-t border-gray-200" />
+          <h3 className="text-lg text-center py-2 bold"> Topics</h3>
+          <TopicList />
         </div>
       </div>
-
     </>
   );
 }

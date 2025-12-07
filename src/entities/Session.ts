@@ -1,20 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 
-@Entity("sessions")
+@Entity("user_sessions")
 export class Session {
-    @PrimaryGeneratedColumn("uuid")
-    id!: string;
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
-    @Column({ unique: true })
-    sessionToken!: string;
+  @Column({ unique: true })
+  sessionToken!: string;
 
-    @Column({ type: "uuid" })
-    userId!: string;
+  @Column({ type: "uuid" })
+  userId!: string;
 
-    @Column({ type: "timestamp" })
-    expires!: Date;
-
-    @ManyToOne("User", "sessions", { onDelete: "CASCADE" })
-    @JoinColumn({ name: "userId" })
-    user!: any;
+  @Column({ type: "timestamptz" })
+  expires!: Date;
+  @ManyToOne("User", "user_sessions", { onDelete: "CASCADE" })
+  @JoinColumn({ name: "userId" })
+  user!: any;
 }
