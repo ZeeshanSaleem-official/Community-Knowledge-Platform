@@ -7,7 +7,6 @@ import { Topic } from "@/entities/Topic";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import path from "@/path";
-import { resolve } from "path";
 interface createTopicFormState {
   errors: {
     name?: string[];
