@@ -1,11 +1,12 @@
-import { Post } from "@/entities/Post";
-import { Topic } from "@/entities/Topic";
-import { User } from "@/entities/User";
+import { PostWithData } from "@/db/queries/posts";
 import Link from "next/link";
-import path from "@/path";
+import paths from "@/path";
+interface PostListProps {
+  fetchData: () => Promise<PostWithData[]>;
+}
 
-// TODO: Get list of posts into this component somehow
-export default function PostList() {
+export default async function PostList({ fetchData }: PostListProps) {
+  const posts = await fetchData();
   const renderedPosts = posts.map((post) => {
     const topicSlug = post.topic.slug;
 
@@ -20,7 +21,7 @@ export default function PostList() {
           <div className="flex flex-row gap-8">
             <p className="text-xs text-gray-400">By {post.user.name}</p>
             <p className="text-xs text-gray-400">
-              {post._count.comments} comments
+              {post.commentsCount} comments
             </p>
           </div>
         </Link>
