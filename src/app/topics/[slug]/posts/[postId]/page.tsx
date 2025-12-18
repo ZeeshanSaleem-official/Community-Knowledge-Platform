@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ShowPost from "@/components/posts/post-show";
 import paths from "@/path";
+import CommentCreateForm from "@/components/comments/comment-create-form";
 
 interface PostShowPageProps {
   params: Promise<{
@@ -17,8 +18,8 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
       <Link className="underline decoration-solid" href={paths.topicShow(slug)}>
         {"< "}Back to {slug}
       </Link>
-      {/* <ShowPost /> */}
-      {/* <CommentCreateForm postId={postId} startOpen /> */}
+      <ShowPost postId={postId} />
+      <CommentCreateForm postId={postId} startOpen="true" />
       {/* <CommentList comments={comments} /> */}
     </div>
   );

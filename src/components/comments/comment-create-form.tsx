@@ -33,36 +33,38 @@ export default function CommentCreateForm({
   }, [formState, setOpen]);
 
   const form = (
-      <form action={action}>
-          
-    <div>
-              
-      <Textarea
-        label="Reply"
-        name="content"
-        labelPlacement="outside"
-        errorMessage={formState.errors.content?.join(", ")}
-        isInvalid={!!formState.errors.content}
+    <form action={action}>
+      <div>
+        <Textarea
+          label="Reply"
+          name="content"
+          labelPlacement="outside"
+          errorMessage={formState.errors.content?.join(", ")}
+          isInvalid={!!formState.errors.content}
         ></Textarea>
-          {
-              formState.errors?._form ? {
-                  <div className="p-2 bg-red-200 border rounded border-red-400">
-                  {formState.errors._form?.join(', ')}
-                  </div>
-                }:null}
-          
-          <Button type="submit" isLoading={isPending}>
-              Submit
-          </Button>
-    </div>
+        {
+          // ✅ Fix: Use parentheses ( ) or nothing at all
+          formState.errors?._form ? (
+            <div className="p-2 bg-red-200 border rounded border-red-400">
+              {formState.errors._form?.join(", ")}
+            </div>
+          ) : null
+        }
+
+        <Button type="submit" isLoading={isPending}>
+          Submit
+        </Button>
+      </div>
     </form>
   );
-    return <div>
+  return (
+    <div>
       <div>
-      <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
-        Reply
-      </Button>
-      {open && form}
+        <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
+          Reply
+        </Button>
+        {open && form}
+      </div>
     </div>
-  </div>;
+  );
 }
