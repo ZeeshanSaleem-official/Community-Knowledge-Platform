@@ -6,6 +6,7 @@ interface PostShowProps {
 }
 
 export default async function ShowPost({ postId }: PostShowProps) {
+  await new Promise((resolve) => setTimeout(resolve, 2500));
   const db = await getDataSource();
   const postRepo = db.getRepository(Post);
   const post = await postRepo.findOne({
