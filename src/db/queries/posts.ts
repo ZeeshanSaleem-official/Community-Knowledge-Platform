@@ -6,6 +6,23 @@ export type PostWithData = Post & {
   user: { name: string | null; image: string | null };
   commentsCount: number;
 };
+export async function fetchPostsBySearchTerm(
+  term: string
+): Promise<PostWithData[]> {
+  const db = await getDataSource();
+  const PostRepo = db.getRepository(Post);
+
+  return PostRepo.createQueryBuilder("post")
+    .leftJoin("post.topic", "topic")
+    .addSelect(["topic.slug"])
+    .leftJoin("post.user", "u")
+    .addSelect(["u.name", "u.image"])
+    .where("post.title ILIKE :term OR post.content ILIKE :term", {
+      term: `%${term}%`,
+    })
+    .loadRelationCountAndMap("post.commentsCount", "post.comments")
+    .getMany() as Promise<PostWithData[]>;
+}
 
 export default async function fetchPostsByTopicSlug(
   slug: string

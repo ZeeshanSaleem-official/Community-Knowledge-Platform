@@ -46,7 +46,7 @@ export async function createComment(
   }
   const db = await getDataSource();
   const TopicRepo = db.getRepository(Topic);
-  const topic = TopicRepo.findOne({
+  const topic = await TopicRepo.findOne({
     where: { posts: { id: postId } },
   });
   if (!topic) {
@@ -71,6 +71,4 @@ export async function createComment(
     errors: {},
     success: true,
   };
-
-  // TODO: REVALIDATE on  SHOW POST
 }
