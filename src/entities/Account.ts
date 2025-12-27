@@ -46,9 +46,16 @@ export class Account {
   @Column({ type: "varchar", nullable: true })
   session_state!: string | null;
 
-  @ManyToOne("User", "accounts", {
-    onDelete: "CASCADE",
-  })
+  @ManyToOne(
+    (type) => {
+      const { User } = require("./User");
+      return User;
+    },
+    "accounts",
+    {
+      onDelete: "CASCADE",
+    }
+  )
   @JoinColumn({ name: "userId" })
   user!: any;
 }

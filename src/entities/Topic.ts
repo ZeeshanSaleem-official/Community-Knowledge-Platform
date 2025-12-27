@@ -24,6 +24,9 @@ export class Topic {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany("Post", "topic")
+  @OneToMany(type => {
+    const { Post } = require("./Post");
+    return Post;
+  }, "topic")
   posts!: any[];
 }

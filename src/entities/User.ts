@@ -17,16 +17,28 @@ export class User {
   @Column({ nullable: true })
   image!: string;
 
-  // Relations - using arrow functions delays entity resolution
-  @OneToMany("Account", "user")
+  // Relations - using callback functions to delay entity resolution
+  @OneToMany(type => {
+    const { Account } = require("./Account");
+    return Account;
+  }, "user")
   accounts!: any[];
 
-  @OneToMany("Session", "user")
+  @OneToMany(type => {
+    const { Session } = require("./Session");
+    return Session;
+  }, "user")
   user_sessions!: any[];
 
-  @OneToMany("Post", "user")
+  @OneToMany(type => {
+    const { Post } = require("./Post");
+    return Post;
+  }, "user")
   posts!: any[];
 
-  @OneToMany("Comment", "user")
+  @OneToMany(type => {
+    const { Comment } = require("./Comment");
+    return Comment;
+  }, "user")
   comments!: any[];
 }

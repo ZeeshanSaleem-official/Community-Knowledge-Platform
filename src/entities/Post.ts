@@ -33,14 +33,23 @@ export class Post {
   updatedAt!: Date;
 
   // Relations
-  @ManyToOne("User", "posts", { onDelete: "CASCADE" })
+  @ManyToOne(type => {
+    const { User } = require("./User");
+    return User;
+  }, "posts", { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user!: any;
 
-  @ManyToOne("Topic", "posts")
+  @ManyToOne(type => {
+    const { Topic } = require("./Topic");
+    return Topic;
+  }, "posts")
   @JoinColumn({ name: "topicId" })
   topic!: any;
 
-  @OneToMany("Comment", "post")
+  @OneToMany(type => {
+    const { Comment } = require("./Comment");
+    return Comment;
+  }, "post")
   comments!: any[];
 }

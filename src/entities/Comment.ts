@@ -33,21 +33,27 @@ export class Comment {
   updatedAt!: Date;
 
   // Relation to Post
-  @ManyToOne("Post", "comments", { onDelete: "CASCADE" })
+  @ManyToOne(type => {
+    const { Post } = require("./Post");
+    return Post;
+  }, "comments", { onDelete: "CASCADE" })
   @JoinColumn({ name: "postId" })
   post!: any;
 
   // Relation to User
-  @ManyToOne("User", "comments", { onDelete: "CASCADE" })
+  @ManyToOne(type => {
+    const { User } = require("./User");
+    return User;
+  }, "comments", { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user!: any;
 
   // Self-Reference (Parent)
-  @ManyToOne("Comment", "children", { onDelete: "CASCADE", nullable: true })
+  @ManyToOne(type => Comment, "children", { onDelete: "CASCADE", nullable: true })
   @JoinColumn({ name: "parentId" })
-  parent!: any | null;
+  parent!: Comment | null;
 
   // Self-Reference (Children/Replies)
-  @OneToMany("Comment", "parent")
-  children!: any[];
+  @OneToMany(type => Comment, "parent")
+  children!: Comment[];
 }

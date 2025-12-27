@@ -19,7 +19,10 @@ export class Session {
 
   @Column({ type: "timestamptz" })
   expires!: Date;
-  @ManyToOne("User", "user_sessions", { onDelete: "CASCADE" })
+  @ManyToOne(type => {
+    const { User } = require("./User");
+    return User;
+  }, "user_sessions", { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user!: any;
 }
