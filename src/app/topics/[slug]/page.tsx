@@ -1,10 +1,11 @@
 import PostCreateForm from "@/components/posts/post-create-form";
 import PostList from "@/components/posts/post-list";
 import fetchPostsByTopicSlug from "@/db/queries/posts";
+
 interface TopicShowPageProps {
-  params: {
-    slug;
-  };
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
 export default async function TopicShowPage({ params }: TopicShowPageProps) {
