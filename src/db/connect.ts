@@ -16,6 +16,7 @@ export const connectionOptions: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   synchronize: true,
+  // synchronize: process.env.NODE_ENV !== "production",
   logging: false,
   entities: [User, Account, VerificationToken, Session, Post, Topic, Comment],
   migrations: [],

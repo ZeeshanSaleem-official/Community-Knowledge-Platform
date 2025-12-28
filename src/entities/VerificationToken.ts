@@ -1,17 +1,18 @@
 import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm";
 
 @Entity("verification_tokens")
-@Unique(["identifier", "token"]) // Matches @@unique([identifier, token])
+@Unique("UQ_Verification_Composite", ["identifier", "token"]) // <--- FIXED NAME HERE
+@Unique("UQ_Verification_Token", ["token"]) // <--- FIXED NAME HERE
 export class VerificationToken {
-    @PrimaryGeneratedColumn("uuid")
-    id!: string;
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
-    @Column()
-    identifier!: string;
+  @Column()
+  identifier!: string;
 
-    @Column({ unique: true })
-    token!: string;
+  @Column() // <--- REMOVED unique: true (moved to top)
+  token!: string;
 
-    @Column({ type: "timestamp" })
-    expires!: Date;
+  @Column({ type: "timestamp" })
+  expires!: Date;
 }

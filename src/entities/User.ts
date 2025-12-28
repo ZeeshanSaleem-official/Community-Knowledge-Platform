@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  Unique,
+} from "typeorm";
 
 @Entity("users")
+@Unique("UQ_User_Email", ["email"]) // <--- FIXED NAME HERE
 export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -8,7 +15,7 @@ export class User {
   @Column({ nullable: true })
   name!: string;
 
-  @Column({ unique: true, nullable: true })
+  @Column({ nullable: true }) // <--- REMOVED unique: true (moved to top)
   email!: string;
 
   @Column({ type: "timestamp", nullable: true })
@@ -17,26 +24,26 @@ export class User {
   @Column({ nullable: true })
   image!: string;
 
-  // Relations - using callback functions to delay entity resolution
-  @OneToMany(type => {
+  // Relations
+  @OneToMany((type) => {
     const { Account } = require("./Account");
     return Account;
   }, "user")
   accounts!: any[];
 
-  @OneToMany(type => {
+  @OneToMany((type) => {
     const { Session } = require("./Session");
     return Session;
   }, "user")
   user_sessions!: any[];
 
-  @OneToMany(type => {
+  @OneToMany((type) => {
     const { Post } = require("./Post");
     return Post;
   }, "user")
   posts!: any[];
 
-  @OneToMany(type => {
+  @OneToMany((type) => {
     const { Comment } = require("./Comment");
     return Comment;
   }, "user")
