@@ -46,16 +46,10 @@ export class Account {
   @Column({ type: "varchar", nullable: true })
   session_state!: string | null;
 
-  @ManyToOne(
-    (type) => {
-      const { User } = require("./User");
-      return User;
-    },
-    "accounts",
-    {
-      onDelete: "CASCADE",
-    }
-  )
+  // Relation - lazy import using arrow function to avoid circular dependencies
+  @ManyToOne(() => require("./User").User, (user: any) => user.accounts, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "userId" })
   user!: any;
 }

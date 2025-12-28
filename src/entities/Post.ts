@@ -32,24 +32,17 @@ export class Post {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  // Relations
-  @ManyToOne(type => {
-    const { User } = require("./User");
-    return User;
-  }, "posts", { onDelete: "CASCADE" })
+  // Relations - lazy import using arrow function to avoid circular dependencies
+  @ManyToOne(() => require("./User").User, (user: any) => user.posts, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "userId" })
   user!: any;
 
-  @ManyToOne(type => {
-    const { Topic } = require("./Topic");
-    return Topic;
-  }, "posts")
+  @ManyToOne(() => require("./Topic").Topic, (topic: any) => topic.posts)
   @JoinColumn({ name: "topicId" })
   topic!: any;
 
-  @OneToMany(type => {
-    const { Comment } = require("./Comment");
-    return Comment;
-  }, "post")
+  @OneToMany(() => require("./Comment").Comment, (comment: any) => comment.post)
   comments!: any[];
 }

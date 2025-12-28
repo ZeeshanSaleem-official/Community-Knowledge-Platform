@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 
 @Entity("users")
-@Unique("UQ_User_Email", ["email"]) // <--- FIXED NAME HERE
+@Unique("UQ_User_Email", ["email"])
 export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -15,7 +15,7 @@ export class User {
   @Column({ nullable: true })
   name!: string;
 
-  @Column({ nullable: true }) // <--- REMOVED unique: true (moved to top)
+  @Column({ nullable: true })
   email!: string;
 
   @Column({ type: "timestamp", nullable: true })
@@ -24,28 +24,16 @@ export class User {
   @Column({ nullable: true })
   image!: string;
 
-  // Relations
-  @OneToMany((type) => {
-    const { Account } = require("./Account");
-    return Account;
-  }, "user")
+  // Relations - lazy import using arrow function to avoid circular dependencies
+  @OneToMany(() => require("./Account").Account, (account: any) => account.user)
   accounts!: any[];
 
-  @OneToMany((type) => {
-    const { Session } = require("./Session");
-    return Session;
-  }, "user")
+  @OneToMany(() => require("./Session").Session, (session: any) => session.user)
   user_sessions!: any[];
 
-  @OneToMany((type) => {
-    const { Post } = require("./Post");
-    return Post;
-  }, "user")
+  @OneToMany(() => require("./Post").Post, (post: any) => post.user)
   posts!: any[];
 
-  @OneToMany((type) => {
-    const { Comment } = require("./Comment");
-    return Comment;
-  }, "user")
+  @OneToMany(() => require("./Comment").Comment, (comment: any) => comment.user)
   comments!: any[];
 }

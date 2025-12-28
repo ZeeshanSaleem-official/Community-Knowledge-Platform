@@ -8,12 +8,12 @@ import {
 } from "typeorm";
 
 @Entity("user_sessions")
-@Unique("UQ_Session_Token", ["sessionToken"]) // <--- FIXED NAME HERE
+@Unique("UQ_Session_Token", ["sessionToken"])
 export class Session {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column() // <--- REMOVED unique: true (moved to top)
+  @Column()
   sessionToken!: string;
 
   @Column({ type: "uuid" })
@@ -22,14 +22,10 @@ export class Session {
   @Column({ type: "timestamptz" })
   expires!: Date;
 
-  @ManyToOne(
-    (type) => {
-      const { User } = require("./User");
-      return User;
-    },
-    "user_sessions",
-    { onDelete: "CASCADE" }
-  )
+  // Relation - lazy import using arrow function to avoid circular dependencies
+  @ManyToOne(() => require("./User").User, (user: any) => user.user_sessions, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "userId" })
   user!: any;
 }

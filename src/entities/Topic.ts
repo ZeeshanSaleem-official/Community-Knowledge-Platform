@@ -5,16 +5,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  Unique,
 } from "typeorm";
 
 @Entity("topics")
-@Unique("UQ_Topic_Slug", ["slug"]) // <--- FIXED NAME HERE
 export class Topic {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column() // <--- REMOVED unique: true (moved to top)
+  @Column({ unique: true })
   slug!: string;
 
   @Column({ type: "text" })
@@ -26,9 +24,7 @@ export class Topic {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany((type) => {
-    const { Post } = require("./Post");
-    return Post;
-  }, "topic")
+  // Relation - lazy import using arrow function to avoid circular dependencies
+  @OneToMany(() => require("./Post").Post, (post: any) => post.topic)
   posts!: any[];
 }
