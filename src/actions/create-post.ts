@@ -47,7 +47,7 @@ export async function createPost(
   const db = await getDataSource();
   const posts = db.getRepository(Topic);
 
-  const topic = posts.findOne({
+  const topic = await posts.findOne({
     where: { slug },
   });
 
