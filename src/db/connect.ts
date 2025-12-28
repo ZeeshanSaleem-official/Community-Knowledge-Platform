@@ -19,6 +19,10 @@ export const connectionOptions: DataSourceOptions = {
   logging: false,
   entities: [User, Account, VerificationToken, Session, Post, Topic, Comment],
   migrations: [],
+  // Inside connectionOptions...
+  ssl: process.env.DB_HOST !== "localhost" && {
+    rejectUnauthorized: false,
+  },
 };
 const AppDataSource = new DataSource(connectionOptions);
 let initialize = false;
