@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from "typeorm";
 
-@Entity("accounts")
+@Entity({ name: "accounts" })
 export class Account {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -46,8 +46,8 @@ export class Account {
   @Column({ type: "varchar", nullable: true })
   session_state!: string | null;
 
-  // Relation - lazy import using arrow function to avoid circular dependencies
-  @ManyToOne(() => require("./User").User, (user: any) => user.accounts, {
+  // Use table name instead of class name
+  @ManyToOne("users", "accounts", {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "userId" })

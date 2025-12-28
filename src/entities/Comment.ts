@@ -9,7 +9,7 @@ import {
   JoinColumn,
 } from "typeorm";
 
-@Entity("comments")
+@Entity({ name: "comments" })
 export class Comment {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -32,28 +32,23 @@ export class Comment {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  // Relations - lazy import using arrow function to avoid circular dependencies
-  @ManyToOne(() => require("./Post").Post, (post: any) => post.comments, {
-    onDelete: "CASCADE",
-  })
+  // Use table names instead of class names
+  @ManyToOne("posts", "comments", { onDelete: "CASCADE" })
   @JoinColumn({ name: "postId" })
   post!: any;
 
-  @ManyToOne(() => require("./User").User, (user: any) => user.comments, {
-    onDelete: "CASCADE",
-  })
+  @ManyToOne("users", "comments", { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user!: any;
 
-  // Self-Reference (Parent)
-  @ManyToOne(() => Comment, (comment) => comment.children, {
+  // Self-reference using table name
+  @ManyToOne("comments", "children", {
     onDelete: "CASCADE",
     nullable: true,
   })
   @JoinColumn({ name: "parentId" })
   parent!: Comment | null;
 
-  // Self-Reference (Children/Replies)
-  @OneToMany(() => Comment, (comment) => comment.parent)
+  @OneToMany("comments", "parent")
   children!: Comment[];
 }

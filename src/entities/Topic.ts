@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 
-@Entity("topics")
+@Entity({ name: "topics" })
 export class Topic {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -24,7 +24,7 @@ export class Topic {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  // Relation - lazy import using arrow function to avoid circular dependencies
-  @OneToMany(() => require("./Post").Post, (post: any) => post.topic)
+  // Use table name instead of class name
+  @OneToMany("posts", "topic")
   posts!: any[];
 }

@@ -9,7 +9,7 @@ import {
   JoinColumn,
 } from "typeorm";
 
-@Entity("posts")
+@Entity({ name: "posts" })
 export class Post {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
@@ -17,7 +17,7 @@ export class Post {
   @Column()
   title!: string;
 
-  @Column({ type: "text" }) // Content can be very long
+  @Column({ type: "text" })
   content!: string;
 
   @Column({ type: "uuid" })
@@ -32,17 +32,15 @@ export class Post {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  // Relations - lazy import using arrow function to avoid circular dependencies
-  @ManyToOne(() => require("./User").User, (user: any) => user.posts, {
-    onDelete: "CASCADE",
-  })
+  // Use table names instead of class names
+  @ManyToOne("users", "posts", { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user!: any;
 
-  @ManyToOne(() => require("./Topic").Topic, (topic: any) => topic.posts)
+  @ManyToOne("topics", "posts")
   @JoinColumn({ name: "topicId" })
   topic!: any;
 
-  @OneToMany(() => require("./Comment").Comment, (comment: any) => comment.post)
+  @OneToMany("comments", "post")
   comments!: any[];
 }

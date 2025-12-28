@@ -6,7 +6,7 @@ import {
   Unique,
 } from "typeorm";
 
-@Entity("users")
+@Entity({ name: "users" })
 @Unique("UQ_User_Email", ["email"])
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -24,16 +24,16 @@ export class User {
   @Column({ nullable: true })
   image!: string;
 
-  // Relations - lazy import using arrow function to avoid circular dependencies
-  @OneToMany(() => require("./Account").Account, (account: any) => account.user)
+  // Use table names (from @Entity name) instead of class names
+  @OneToMany("accounts", "user")
   accounts!: any[];
 
-  @OneToMany(() => require("./Session").Session, (session: any) => session.user)
+  @OneToMany("user_sessions", "user")
   user_sessions!: any[];
 
-  @OneToMany(() => require("./Post").Post, (post: any) => post.user)
+  @OneToMany("posts", "user")
   posts!: any[];
 
-  @OneToMany(() => require("./Comment").Comment, (comment: any) => comment.user)
+  @OneToMany("comments", "user")
   comments!: any[];
 }

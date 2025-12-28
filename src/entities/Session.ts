@@ -7,7 +7,7 @@ import {
   Unique,
 } from "typeorm";
 
-@Entity("user_sessions")
+@Entity({ name: "user_sessions" })
 @Unique("UQ_Session_Token", ["sessionToken"])
 export class Session {
   @PrimaryGeneratedColumn("uuid")
@@ -22,10 +22,8 @@ export class Session {
   @Column({ type: "timestamptz" })
   expires!: Date;
 
-  // Relation - lazy import using arrow function to avoid circular dependencies
-  @ManyToOne(() => require("./User").User, (user: any) => user.user_sessions, {
-    onDelete: "CASCADE",
-  })
+  // Use table name instead of class name
+  @ManyToOne("users", "user_sessions", { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user!: any;
 }

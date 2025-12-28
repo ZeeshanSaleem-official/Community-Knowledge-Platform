@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   productionBrowserSourceMaps: false,
   reactCompiler: true,
   images: {
@@ -12,6 +11,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Empty turbopack config to satisfy Next.js 16
+  turbopack: {},
 };
 
 export default nextConfig;
