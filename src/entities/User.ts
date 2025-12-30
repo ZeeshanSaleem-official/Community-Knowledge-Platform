@@ -23,6 +23,8 @@ export class User {
 
   @Column({ nullable: true })
   image!: string;
+  @Column({ type: "text", nullable: true })
+  password!: string;
 
   // Use table names (from @Entity name) instead of class names
   @OneToMany("accounts", "user")
