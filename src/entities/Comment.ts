@@ -41,14 +41,14 @@ export class Comment {
   @JoinColumn({ name: "userId" })
   user!: any;
 
-  // Self-reference using arrow function for lazy resolution
-  @ManyToOne(() => Comment, (comment) => comment.children, {
+  // Self-reference using table name to avoid cyclic dependency on Vercel
+  @ManyToOne("comments", "children", {
     onDelete: "CASCADE",
     nullable: true,
   })
   @JoinColumn({ name: "parentId" })
   parent!: Comment | null;
 
-  @OneToMany(() => Comment, (comment) => comment.parent)
+  @OneToMany("comments", "parent")
   children!: Comment[];
 }
