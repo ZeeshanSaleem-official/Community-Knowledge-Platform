@@ -45,10 +45,13 @@ export async function createComment(
     };
   }
   const db = await getDataSource();
-  const TopicRepo = db.getRepository(Topic);
-  const topic = await TopicRepo.findOne({
-    where: { posts: { id: postId } },
-  });
+  // Use query builder with raw join to avoid TypeORM relation resolution cyclic dependency
+  const topic = await db
+    .getRepository(Topic)
+    .createQueryBuilder("topic")
+    .innerJoin("posts", "post", "post.topicId = topic.id")
+    .where("post.id = :postId", { postId })
+    .getOne();
   if (!topic) {
     return {
       errors: {
