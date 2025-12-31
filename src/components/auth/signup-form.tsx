@@ -6,7 +6,9 @@ import * as authActions from "@/actions/sign-in"; // Import the SignIn action fo
 import { Button, Divider } from "@nextui-org/react";
 
 export default function SignUpForm() {
-  const [state, action] = useActionState(actions.register, { errors: {} });
+  const [state, action, isPending] = useActionState(actions.register, {
+    errors: {},
+  });
 
   return (
     <div className="flex flex-col gap-4 p-4 border rounded bg-white w-full max-w-md shadow-sm">
@@ -72,7 +74,12 @@ export default function SignUpForm() {
           </p>
         )}
 
-        <Button type="submit" color="success" className="text-white">
+        <Button
+          isLoading={isPending}
+          type="submit"
+          color="success"
+          className="text-white"
+        >
           Sign Up
         </Button>
       </form>
@@ -86,7 +93,12 @@ export default function SignUpForm() {
 
       {/* GitHub Sign Up Button */}
       <form action={authActions.SignIn}>
-        <Button type="submit" variant="bordered" className="w-full">
+        <Button
+          isLoading={isPending}
+          type="submit"
+          variant="bordered"
+          className="w-full"
+        >
           Sign up with GitHub
         </Button>
       </form>

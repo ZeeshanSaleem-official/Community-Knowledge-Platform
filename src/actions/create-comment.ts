@@ -65,7 +65,21 @@ export async function createComment(
       parentId: parentId,
       userId: session.user.id,
     });
-  } catch {}
+  } catch (err) {
+    // 1. Log the real error to your terminal so you can see it!
+    console.error("Failed to create comment:", err);
+
+    // 2. Return the error to the user
+    if (err instanceof Error) {
+      return {
+        errors: { _form: [err.message] },
+      };
+    } else {
+      return {
+        errors: { _form: ["Something went wrong saving the comment."] },
+      };
+    }
+  }
   revalidatePath(paths.postShow(topic.slug, postId));
   return {
     errors: {},

@@ -7,7 +7,7 @@ import { Button, Divider } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
-  const [state, action] = useActionState(actions.SignInCredentials, {
+  const [state, action, isPending] = useActionState(actions.SignInCredentials, {
     errors: {},
   });
   const searchParams = useSearchParams();
@@ -53,7 +53,7 @@ export default function LoginForm() {
           </div>
         )}
 
-        <Button type="submit" color="primary">
+        <Button isLoading={isPending} type="submit" color="primary">
           Login
         </Button>
       </form>
@@ -67,7 +67,12 @@ export default function LoginForm() {
 
       {/* 3. GitHub Button  */}
       <form action={actions.SignIn}>
-        <Button type="submit" variant="bordered" className="w-full">
+        <Button
+          isLoading={isPending}
+          type="submit"
+          variant="bordered"
+          className="w-full"
+        >
           Sign in with GitHub
         </Button>
       </form>
