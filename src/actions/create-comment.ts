@@ -4,12 +4,11 @@ import { revalidatePath } from "next/cache";
 import paths from "@/path";
 import { auth } from "@/auth";
 import { getDataSource } from "@/db/connect";
-import { Comment } from "@/entities/Comment";
-import { Topic } from "@/entities/Topic";
 
 const createCommentSchema = z.object({
   content: z.string().min(5),
 });
+
 interface createCommentFormState {
   errors: {
     content?: string[];
@@ -17,6 +16,7 @@ interface createCommentFormState {
   };
   success?: boolean;
 }
+
 export async function createComment(
   {
     postId,
@@ -44,35 +44,43 @@ export async function createComment(
       },
     };
   }
-  const db = await getDataSource();
-  // Use query builder with raw join to avoid TypeORM relation resolution cyclic dependency
-  const topic = await db
-    .getRepository(Topic)
-    .createQueryBuilder("topic")
-    .innerJoin("posts", "post", "post.topicId = topic.id")
-    .where("post.id = :postId", { postId })
-    .getOne();
-  if (!topic) {
-    return {
-      errors: {
-        _form: ["Failed to revalidate topic"],
-      },
-    };
-  }
-  const commentRepo = await db.getRepository(Comment);
-  let comment: Comment;
+
   try {
-    comment = await commentRepo.save({
-      content: result.data.content,
-      postId: postId,
-      parentId: parentId,
-      userId: session.user.id,
-    });
+    const db = await getDataSource();
+
+    // RAW SQL: Get topic slug without using getRepository
+    const topicResult = await db.query(
+      `SELECT t.slug FROM topics t 
+       INNER JOIN posts p ON p."topicId" = t.id 
+       WHERE p.id = $1`,
+      [postId]
+    );
+
+    if (!topicResult || topicResult.length === 0) {
+      return {
+        errors: {
+          _form: ["Cannot find topic"],
+        },
+      };
+    }
+
+    const topicSlug = topicResult[0].slug;
+
+    // RAW SQL: Insert comment without using getRepository(Comment)
+    await db.query(
+      `INSERT INTO comments (id, content, "postId", "userId", "parentId", "createdAt", "updatedAt")
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, NOW(), NOW())`,
+      [result.data.content, postId, session.user.id, parentId || null]
+    );
+
+    revalidatePath(paths.postShow(topicSlug, postId));
+    return {
+      errors: {},
+      success: true,
+    };
   } catch (err) {
-    // 1. Log the real error to your terminal so you can see it!
     console.error("Failed to create comment:", err);
 
-    // 2. Return the error to the user
     if (err instanceof Error) {
       return {
         errors: { _form: [err.message] },
@@ -83,9 +91,4 @@ export async function createComment(
       };
     }
   }
-  revalidatePath(paths.postShow(topic.slug, postId));
-  return {
-    errors: {},
-    success: true,
-  };
 }
