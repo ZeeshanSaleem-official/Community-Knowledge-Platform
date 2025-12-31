@@ -22,11 +22,21 @@ export const {
   session: {
     strategy: "jwt",
   },
+  callbacks: {
+    async session({ session, token }: any) {
+      if (session && session.user) {
+        // This attaches the user ID (from the token) to the session object
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
   providers: [
     Github({
       clientId: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
     }),
+
     Credentials({
       name: "Credentials",
       credentials: {

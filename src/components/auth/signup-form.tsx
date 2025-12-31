@@ -56,6 +56,15 @@ export default function SignUpForm() {
             </p>
           )}
         </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold">Profile Image</label>
+          <input
+            name="image"
+            type="file"
+            accept="image/*"
+            className="border p-2 rounded bg-gray-50 text-sm"
+          />
+        </div>
 
         {state.errors?._form && (
           <p className="text-red-500 text-sm">

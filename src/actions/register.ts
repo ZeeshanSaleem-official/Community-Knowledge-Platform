@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { getDataSource } from "@/db/connect";
 import { User } from "@/entities";
+import { writeFile, mkdir } from "fs/promises";
+import { join } from "path";
 
 interface registerFormState {
   errors: {
@@ -62,13 +64,36 @@ export async function register(
       },
     };
   }
+  let imagePath = "";
+  const imageFile = formData.get("image") as File;
+
+  if (imageFile && imageFile.size > 0 && imageFile.name !== "undefined") {
+    try {
+      const buffer = Buffer.from(await imageFile.arrayBuffer());
+      const filename = `${Date.now()}-${imageFile.name.replace(/\s/g, "_")}`;
+
+      const uploadDir = join(process.cwd(), "public", "uploads");
+      await mkdir(uploadDir, { recursive: true });
+      const filePath = join(uploadDir, filename);
+      await writeFile(filePath, buffer);
+
+      // Set the path to be stored in DB (accessible via browser)
+      imagePath = `/uploads/${filename}`;
+    } catch (error) {
+      return {
+        errors: {
+          _form: [`Image upload failed:${error}`],
+        },
+      };
+    }
+  }
   const hashPassword = await bcrypt.hash(result.data.password, 10);
   try {
-    await userRepo.save({
+    const newUser = await userRepo.save({
       name: result.data.name,
       email: result.data.email,
       password: hashPassword,
-      image: "",
+      image: imagePath,
     });
   } catch (err) {
     return {
@@ -77,8 +102,7 @@ export async function register(
       },
     };
   }
-  redirect("/");
-
+  redirect("/sign-in?registered=true");
   return {
     errors: {},
   };
