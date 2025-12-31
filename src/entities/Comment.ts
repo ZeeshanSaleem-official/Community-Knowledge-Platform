@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
-  OneToMany,
   JoinColumn,
 } from "typeorm";
 
@@ -41,14 +40,8 @@ export class Comment {
   @JoinColumn({ name: "userId" })
   user!: any;
 
-  // Self-reference using table name to avoid cyclic dependency on Vercel
-  @ManyToOne("comments", "children", {
-    onDelete: "CASCADE",
-    nullable: true,
-  })
-  @JoinColumn({ name: "parentId" })
-  parent!: Comment | null;
-
-  @OneToMany("comments", "parent")
-  children!: Comment[];
+  // Note: Self-referencing parent/children relations removed to avoid
+  // cyclic dependency error on Vercel. Use parentId column directly
+  // for parent-child relationships in queries.
 }
+
