@@ -41,14 +41,14 @@ export class Comment {
   @JoinColumn({ name: "userId" })
   user!: any;
 
-  // Self-reference using table name
-  @ManyToOne("comments", "children", {
+  // Self-reference using arrow function for lazy resolution
+  @ManyToOne(() => Comment, (comment) => comment.children, {
     onDelete: "CASCADE",
     nullable: true,
   })
   @JoinColumn({ name: "parentId" })
   parent!: Comment | null;
 
-  @OneToMany("comments", "parent")
+  @OneToMany(() => Comment, (comment) => comment.parent)
   children!: Comment[];
 }
