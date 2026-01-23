@@ -53,14 +53,17 @@ Node.js (v18 or higher).
 PostgreSQL database running locally or in the cloud.
 
 2. Clone & Install
+
   git clone [https://github.com/your-username/community-platform.git](https://github.com/your-username/community-platform.git)
+  
 cd community-platform
 npm install
    
-3. Environment Setup
+4. Environment Setup
 Create a .env.local file in the root directory and add the following credentials:
 
 # Database Connection (PostgreSQL connection string)
+
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
 
 # NextAuth Configuration
@@ -78,22 +81,28 @@ npx prisma db push
 npm run dev
 Access the application at http://localhost:3000.
 
-🔌 Key Features
 
-Feature,Description
-Manual Authentication,Full custom Sign Up and Login forms handling Email/Password credentials.
-Topic Threads,Users can create focused discussion topics and subscribe to them.
-Nested Comments,Deeply nested conversation threads on posts using recursive components.
-Real-time Search,Search posts and topics using URL parameters and Server Actions.
-Secure Mutations,"All data changes (creates/updates) happen via Server Actions, ensuring type safety."
+## 🔌 Key Features
 
+| Feature | Description |
+| :--- | :--- |
+| **Manual Authentication** | Full custom Sign Up and Login forms handling Email/Password credentials. |
+| **Topic Threads** | Users can create focused discussion topics and subscribe to them. |
+| **Nested Comments** | Deeply nested conversation threads on posts using recursive components. |
+| **Real-time Search** | Search posts and topics using URL parameters and Server Actions. |
+| **Secure Mutations** | All data changes (creates/updates) happen via Server Actions, ensuring type safety. |
 
-💡 Design Decisions
-Server Actions: I utilized Next.js Server Actions to handle form submissions (Login, Register, Create Post) directly on the server. This eliminates the need for separate API API endpoints and ensures strict type safety.
+---
 
-Custom Auth UI: Instead of using the default NextAuth pages, I built Custom Login and Signup Forms (src/components/auth/) to have full control over the user experience and validation logic.
+## 💡 Design Decisions
 
-PostgreSQL Architecture: The application is designed around a relational PostgreSQL schema to handle complex relationships between Users, Topics, Posts, and nested Comments efficiently.
+* **Server Actions:** I utilized Next.js Server Actions to handle form submissions (Login, Register, Create Post) directly on the server. This eliminates the need for separate API endpoints and ensures strict type safety.
+
+* **Custom Auth UI:** Instead of using the default NextAuth pages, I built **Custom Login and Signup Forms** (`src/components/auth/`) to have full control over the user experience and validation logic.
+
+* **PostgreSQL Architecture:** The application is designed around a relational **PostgreSQL** schema to handle complex relationships between Users, Topics, Posts, and nested Comments efficiently.
+
 
 📜 License
+
 Distributed under the MIT License.
