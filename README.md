@@ -7,7 +7,7 @@
 
 A modern, full-stack discussion platform engineered with **Next.js 15 (App Router)**. This project demonstrates advanced web architecture using **Server Actions** for mutations, **PostgreSQL** for robust data storage, and **Custom Authentication** flows.
 
-> **Live Demo:** [Insert Your Vercel Link Here]
+> **Live Demo:** https://zeeshan-community-platform.vercel.app/
 
 ---
 
