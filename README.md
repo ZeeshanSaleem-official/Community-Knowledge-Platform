@@ -54,7 +54,7 @@ PostgreSQL database running locally or in the cloud.
 
 2. Clone & Install
 
-  git clone [https://github.com/your-username/community-platform.git](https://github.com/your-username/community-platform.git)
+  git clone [https://github.com/ZeeshanSaleem-official/next-auth.git](https://github.com/ZeeshanSaleem-official/next-auth.git)
   
 cd community-platform
 npm install
