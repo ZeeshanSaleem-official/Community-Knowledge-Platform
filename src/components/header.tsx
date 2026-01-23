@@ -15,7 +15,7 @@ export default function Header() {
     <Navbar className=" shadow-mb-6">
       <NavbarBrand>
         <Link href="/" className="font-bold">
-          RedditClone
+          Community Knowledge Platform
         </Link>
       </NavbarBrand>
       <NavbarContent justify="center">
