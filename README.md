@@ -96,7 +96,7 @@ Access the application at http://localhost:3000.
 
 ## 💡 Design Decisions
 
-* **Server Actions:** I utilized Next.js Server Actions to handle form submissions (Login, Register, Create Post) directly on the server. This eliminates the need for separate API endpoints and ensures strict type safety.
+* **Server Actions:** I utilized Next.js Server Actions to handle form submissions (Login, Register, Create Post, and also Create Comments) directly on the server. This eliminates the need for separate API endpoints and ensures strict type safety.
 
 * **Custom Auth UI:** Instead of using the default NextAuth pages, I built **Custom Login and Signup Forms** (`src/components/auth/`) to have full control over the user experience and validation logic.
 
