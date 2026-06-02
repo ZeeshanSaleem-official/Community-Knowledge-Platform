@@ -26,7 +26,16 @@ export const connectionOptions: DataSourceOptions = {
   },
 };
 
-const AppDataSource = new DataSource(connectionOptions);
+const globalForTypeorm = globalThis as unknown as {
+  AppDataSource: DataSource;
+};
+
+const AppDataSource =
+  globalForTypeorm.AppDataSource || new DataSource(connectionOptions);
+
+if (process.env.NODE_ENV !== "production") {
+  globalForTypeorm.AppDataSource = AppDataSource;
+}
 
 export const getDataSource = async () => {
   if (!AppDataSource.isInitialized) {

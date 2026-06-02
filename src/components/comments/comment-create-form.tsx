@@ -44,35 +44,33 @@ export default function CommentCreateForm({
 
   const form = (
     <form action={action}>
-      <div>
+      <div className="space-y-2 mt-2">
         <Textarea
-          label="Reply"
           name="content"
           labelPlacement="outside"
-          // 2. Now TypeScript knows 'content' exists
+          placeholder="What are your thoughts?"
           errorMessage={formState.errors.content?.join(", ")}
           isInvalid={!!formState.errors.content}
-        ></Textarea>
+          minRows={2}
+        />
         {formState.errors._form ? (
-          <div className="p-2 bg-red-200 border rounded border-red-400">
+          <div className="p-2 bg-danger/10 border rounded-lg border-danger-200 text-danger text-sm">
             {formState.errors._form?.join(", ")}
           </div>
         ) : null}
 
-        <Button type="submit" isLoading={isPending}>
+        <Button type="submit" isLoading={isPending} color="primary" variant="flat" size="sm">
           Submit
         </Button>
       </div>
     </form>
   );
   return (
-    <div>
-      <div>
-        <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
-          Reply
-        </Button>
-        {open && form}
-      </div>
+    <div className="mt-2">
+      <Button size="sm" variant="light" color="default" className="text-default-500 font-medium" onClick={() => setOpen(!open)}>
+        {open ? "Cancel" : "Reply"}
+      </Button>
+      {open && form}
     </div>
   );
 }

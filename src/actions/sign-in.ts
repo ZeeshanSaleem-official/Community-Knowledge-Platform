@@ -4,7 +4,7 @@ import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 
 export async function SignIn() {
-  return auth.signIn("github");
+  return auth.signIn("github", { redirectTo: "/" });
 }
 export async function SignInCredentials(prevState: any, formData: FormData) {
   try {

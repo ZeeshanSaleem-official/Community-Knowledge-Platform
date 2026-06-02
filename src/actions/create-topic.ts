@@ -57,7 +57,7 @@ export async function createTopic(
       },
     };
   }
-  const topicRepo = db.getRepository(Topic);
+  const topicRepo = db.getRepository<any>("Topic");
   let topic: Topic;
   try {
     topic = await topicRepo.save({
@@ -86,3 +86,4 @@ export async function createTopic(
     errors: {},
   };
 }
+

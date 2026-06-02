@@ -8,7 +8,7 @@ interface PostShowProps {
 export default async function ShowPost({ postId }: PostShowProps) {
   await new Promise((resolve) => setTimeout(resolve, 2500));
   const db = await getDataSource();
-  const postRepo = db.getRepository(Post);
+  const postRepo = db.getRepository<any>("Post");
   const post = await postRepo.findOne({
     where: { id: postId },
   });
@@ -17,9 +17,15 @@ export default async function ShowPost({ postId }: PostShowProps) {
     notFound();
   }
   return (
-    <div className="m-4">
-      <h1 className="text-2xl font-bold my-2">{post.title}</h1>
-      <p className="p-4 border rounded">{post.content}</p>
+    <div className="bg-content1 shadow-sm border border-divider rounded-xl overflow-hidden">
+      <div className="px-6 py-4">
+        <h1 className="text-2xl font-bold text-default-900">{post.title}</h1>
+      </div>
+      <hr className="border-divider" />
+      <div className="px-6 py-4">
+        <p className="text-default-700 text-lg leading-relaxed whitespace-pre-wrap">{post.content}</p>
+      </div>
     </div>
   );
 }
+

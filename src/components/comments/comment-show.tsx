@@ -27,26 +27,26 @@ export default async function CommentShow({
         key={child.id}
         commentId={child.id}
         postId={postId}
-        // comments={comments}
+      // comments={comments}
       />
     );
   });
 
   return (
-    <div className="p-4 border mt-2 mb-1">
+    <div className="p-3 border-l-2 border-divider mt-2 bg-content1/50 rounded-r-xl">
       <div className="flex gap-3">
         <Image
-          src={comment.user.image || ""}
+          src={comment.user.image || `https://ui-avatars.com/api/?name=${comment.user.name || 'User'}&background=random`}
           alt="user image"
           width={40}
           height={40}
           className="w-10 h-10 rounded-full"
         />
-        <div className="flex-1 space-y-3">
-          <p className="text-sm font-medium text-gray-500">
+        <div className="flex-1 space-y-2">
+          <p className="text-sm font-semibold text-default-700">
             {comment.user.name}
           </p>
-          <p className="text-gray-900">{comment.content}</p>
+          <p className="text-default-800 text-sm">{comment.content}</p>
 
           <CommentCreateForm postId={comment.postId} parentId={comment.id} />
         </div>

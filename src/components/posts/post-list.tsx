@@ -1,33 +1,27 @@
 import { PostWithData } from "@/db/queries/posts";
-import Link from "next/link";
-import paths from "@/path";
+import PostListClient from "./post-list-client";
+
 interface PostListProps {
   fetchData: () => Promise<PostWithData[]>;
 }
 
 export default async function PostList({ fetchData }: PostListProps) {
   const posts = await fetchData();
-  const renderedPosts = posts.map((post) => {
-    const topicSlug = post.topic.slug;
-
-    if (!topicSlug) {
-      throw new Error("Need a slug to link to a post");
+  
+  // Serialize TypeORM entities to plain JavaScript objects
+  // This is required because Next.js cannot pass Class instances from Server to Client components.
+  const serializedPosts = posts.map(post => ({
+    id: post.id,
+    title: post.title,
+    commentsCount: post.commentsCount,
+    topic: {
+      slug: post.topic.slug
+    },
+    user: {
+      id: post.user.id,
+      name: post.user.name
     }
+  })) as PostWithData[];
 
-    return (
-      <div key={post.id} className="border rounded p-2">
-        <Link href={paths.postShow(topicSlug, post.id)}>
-          <h3 className="text-lg font-bold">{post.title}</h3>
-          <div className="flex flex-row gap-8 ">
-            <p className="text-xs text-gray-400">By {post.user.name}</p>
-            <p className="text-xs text-gray-400">
-              {post.commentsCount} comments
-            </p>
-          </div>
-        </Link>
-      </div>
-    );
-  });
-
-  return <div className="space-y-2">{renderedPosts}</div>;
+  return <PostListClient posts={serializedPosts} />;
 }

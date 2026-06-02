@@ -6,6 +6,7 @@ import {
   PopoverTrigger,
   Textarea,
   Input,
+  Divider,
 } from "@nextui-org/react";
 import { useActionState } from "react";
 import * as actions from "@/actions";
@@ -29,31 +30,31 @@ export default function PostCreateForm({ slug }: PostCreateFormProps) {
       <PopoverContent>
         <form action={action}>
           <div className="flex flex-col gap-4 p-4 w-80">
-            <h3 className="text-lg">Create a Post</h3>
+            <h3 className="text-lg font-bold">Create a Post</h3>
+            <Divider />
             <Input
               name="title"
               label="Title"
-              placeholder="Title"
+              placeholder="Enter a title..."
               labelPlacement="outside"
               isInvalid={!!formState.errors.title}
               errorMessage={formState.errors.title?.join(", ")}
-            ></Input>
+            />
             <Textarea
               name="content"
               label="Content"
-              placeholder="Content"
+              placeholder="What are your thoughts?"
               labelPlacement="outside"
               isInvalid={!!formState.errors.content}
               errorMessage={formState.errors.content?.join(", ")}
             />
 
             {formState.errors._form ? (
-              <div className="rounded p-2 bg-red-200 border border-red-400">
+              <div className="rounded-lg p-3 bg-danger/10 border border-danger-200 text-danger text-sm">
                 {formState.errors._form?.join(", ")}
               </div>
             ) : null}
-            <Button type="submit" isLoading={isPending}>
-              {" "}
+            <Button type="submit" isLoading={isPending} color="primary" variant="shadow">
               Create Post
             </Button>
           </div>

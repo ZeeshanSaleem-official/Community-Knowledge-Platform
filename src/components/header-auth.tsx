@@ -26,7 +26,7 @@ export default function HeaderAuth() {
         <PopoverContent>
           <div className="p-4">
             <form action={actions.SignOut}>
-              <Button type="submit">Sign Out</Button>
+              <Button type="submit" color="danger" variant="flat" fullWidth>Sign Out</Button>
             </form>
           </div>
         </PopoverContent>
@@ -38,7 +38,7 @@ export default function HeaderAuth() {
       <>
         <NavbarItem>
           {/* Link to your Manual Sign In Page */}
-          <Button as={Link} href="/sign-in" color="primary" variant="bordered">
+          <Button as={Link} href="/sign-in" color="default" variant="flat" className="font-medium">
             Sign In
           </Button>
         </NavbarItem>
@@ -47,8 +47,9 @@ export default function HeaderAuth() {
           <Button
             as={Link}
             href="/sign-up"
-            color="secondary"
-            variant="bordered"
+            color="primary"
+            variant="shadow"
+            className="font-medium"
           >
             Sign Up
           </Button>

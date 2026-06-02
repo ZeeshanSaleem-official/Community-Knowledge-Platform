@@ -8,6 +8,7 @@ import {
 } from "@nextui-org/react";
 import HeaderAuth from "./header-auth";
 import SearchInput from "./search-input";
+import { ThemeSwitcher } from "./theme-switcher";
 import { Suspense } from "react";
 
 export default function Header() {
@@ -25,7 +26,8 @@ export default function Header() {
           </Suspense>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify="end">
+      <NavbarContent justify="end" className="gap-4">
+        <ThemeSwitcher />
         <HeaderAuth />
       </NavbarContent>
     </Navbar>

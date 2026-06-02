@@ -25,17 +25,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className=" container mx-auto px-4 max-w-6xl">
-
-          <Providers>
+        <Providers>
+          <div className="container mx-auto px-4 max-w-6xl">
             <Header />
             {children}
-          </Providers>
-        </div>
+          </div>
+        </Providers>
       </body>
     </html>
   );
