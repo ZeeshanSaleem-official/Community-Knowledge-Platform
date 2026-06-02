@@ -10,7 +10,7 @@ export async function fetchPostsBySearchTerm(
   term: string
 ): Promise<PostWithData[]> {
   const db = await getDataSource();
-  const PostRepo = db.getRepository<any>("Post");
+  const PostRepo = db.getRepository(Post);
 
   return PostRepo.createQueryBuilder("post")
     .leftJoin("post.topic", "topic")
@@ -28,7 +28,7 @@ export default async function fetchPostsByTopicSlug(
   slug: string
 ): Promise<PostWithData[]> {
   const db = await getDataSource();
-  const PostRepo = db.getRepository<any>("Post");
+  const PostRepo = db.getRepository(Post);
 
   return PostRepo.createQueryBuilder("post")
     .leftJoin("post.topic", "topic")
@@ -42,7 +42,7 @@ export default async function fetchPostsByTopicSlug(
 
 export async function fetchTopPosts(): Promise<PostWithData[]> {
   const db = await getDataSource();
-  const PostRepo = db.getRepository<any>("Post");
+  const PostRepo = db.getRepository(Post);
 
   const posts = (await PostRepo.createQueryBuilder("post")
     .leftJoin("post.topic", "topic")
@@ -54,4 +54,5 @@ export async function fetchTopPosts(): Promise<PostWithData[]> {
 
   return posts.sort((a, b) => b.commentsCount - a.commentsCount).slice(0, 3);
 }
+
 

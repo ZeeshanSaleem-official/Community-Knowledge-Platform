@@ -45,7 +45,7 @@ export async function createPost(
   }
 
   const db = await getDataSource();
-  const posts = db.getRepository<any>("Topic");
+  const posts = db.getRepository(Topic);
 
   const topic = await posts.findOne({
     where: { slug },
@@ -58,7 +58,7 @@ export async function createPost(
       },
     };
   }
-  const postRepo = db.getRepository<any>("Post");
+  const postRepo = db.getRepository(Post);
   let post: Post;
   try {
     post = await postRepo.save({
@@ -86,4 +86,5 @@ export async function createPost(
   revalidatePath(path.topicShow(slug));
   redirect(path.postShow(slug, post.id));
 }
+
 

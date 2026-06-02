@@ -35,6 +35,15 @@ const AppDataSource =
 
 if (process.env.NODE_ENV !== "production") {
   globalForTypeorm.AppDataSource = AppDataSource;
+
+  // Monkey-patch getRepository to survive Next.js HMR class reference changes
+  const originalGetRepository = AppDataSource.getRepository.bind(AppDataSource);
+  AppDataSource.getRepository = function (entity: any) {
+    if (typeof entity === "function" && entity.name) {
+      return originalGetRepository(entity.name);
+    }
+    return originalGetRepository(entity);
+  };
 }
 
 export const getDataSource = async () => {

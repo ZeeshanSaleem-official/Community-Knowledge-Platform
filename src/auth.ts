@@ -46,7 +46,7 @@ export const {
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) return null;
         const db = await getDataSource();
-        const userRepo = db.getRepository<any>("User");
+        const userRepo = db.getRepository(User);
         const user = await userRepo.findOne({
           where: { email: credentials.email as string },
         });
@@ -66,4 +66,5 @@ export const {
     }),
   ],
 });
+
 

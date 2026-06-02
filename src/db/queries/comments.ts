@@ -21,7 +21,7 @@ export const fetchCommentsByPostId = cache(
     console.log("For the query");
 
     const db = await getDataSource();
-    const CommentRepo = db.getRepository<any>("Comment");
+    const CommentRepo = db.getRepository(Comment);
     const comments = await CommentRepo.createQueryBuilder("comment")
       .leftJoin("comment.user", "user")
       .addSelect(["user.name", "user.image"])
@@ -44,4 +44,5 @@ export const fetchCommentsByPostId = cache(
     }));
   }
 );
+
 

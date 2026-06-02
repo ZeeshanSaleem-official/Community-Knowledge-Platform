@@ -51,7 +51,7 @@ export async function register(
       },
     };
   }
-  const userRepo = db.getRepository<any>("User");
+  const userRepo = db.getRepository(User);
   const existingUser = await userRepo.findOne({
     where: { email: result.data.email },
   });
@@ -104,4 +104,5 @@ export async function register(
     errors: {},
   };
 }
+
 
